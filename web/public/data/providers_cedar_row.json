@@ -1,0 +1,58 @@
+{
+ "groq": {
+  "model": "openai/gpt-oss-120b",
+  "accuracy": {
+   "k": 141,
+   "n": 141,
+   "rate": 1.0,
+   "ci95": [
+    0.9742,
+    1.0
+   ]
+  },
+  "failed_docs": [],
+  "misses": {
+   "left_unresolved": 0,
+   "wrong_value": 0
+  },
+  "median_latency_ms": 2997
+ },
+ "openrouter-nemotron": {
+  "model": "nvidia/nemotron-3-super-120b-a12b:free",
+  "accuracy": {
+   "k": 141,
+   "n": 141,
+   "rate": 1.0,
+   "ci95": [
+    0.9742,
+    1.0
+   ]
+  },
+  "failed_docs": [],
+  "misses": {
+   "left_unresolved": 0,
+   "wrong_value": 0
+  },
+  "median_latency_ms": 19573
+ },
+ "ollama": {
+  "model": "qwen3.5:4b",
+  "accuracy": {
+   "k": 72,
+   "n": 129,
+   "rate": 0.5581,
+   "ci95": [
+    0.4681,
+    0.6455
+   ]
+  },
+  "failed_docs": [
+   "certification"
+  ],
+  "misses": {
+   "left_unresolved": 57,
+   "wrong_value": 0
+  },
+  "median_latency_ms": 39037
+ }
+}

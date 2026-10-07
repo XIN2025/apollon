@@ -1,0 +1,17 @@
+{
+ "scenario": "cedar_row",
+ "runs": 3,
+ "providers": [
+  "groq:openai/gpt-oss-120b"
+ ],
+ "agreement": {
+  "k": 163,
+  "n": 163,
+  "rate": 1.0,
+  "ci95": [
+   0.9776,
+   1.0
+  ]
+ },
+ "disagree": {}
+}

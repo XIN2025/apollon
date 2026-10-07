@@ -1,0 +1,230 @@
+{
+ "scenario": "birchview",
+ "split": "test",
+ "headline": {
+  "real_issue_recall": {
+   "k": 4,
+   "n": 4,
+   "rate": 1.0,
+   "ci95": [
+    0.3976,
+    1.0
+   ]
+  },
+  "false_explained_rate": {
+   "k": 0,
+   "n": 2,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.8419
+   ]
+  },
+  "alert_load": {
+   "engine_cards": 6,
+   "naive_diff_alerts": 13,
+   "naive_fields": [
+    "advertising",
+    "cleaning_maintenance",
+    "gross_rents",
+    "insurance",
+    "legal_professional",
+    "noi",
+    "org_name",
+    "other_income",
+    "property_address",
+    "re_taxes",
+    "repairs",
+    "total_income",
+    "utilities"
+   ]
+  },
+  "naive_diff_recall": {
+   "k": 1,
+   "n": 4,
+   "rate": 0.25,
+   "ci95": [
+    0.0063,
+    0.8059
+   ]
+  },
+  "naive_caught": [
+   "T2"
+  ]
+ },
+ "extraction": {
+  "all_fields": {
+   "k": 175,
+   "n": 179,
+   "rate": 0.9777,
+   "ci95": [
+    0.9438,
+    0.9939
+   ]
+  },
+  "numeric_llm": {
+   "k": 61,
+   "n": 63,
+   "rate": 0.9683,
+   "ci95": [
+    0.89,
+    0.9961
+   ]
+  },
+  "numeric_fuzzy_baseline": {
+   "k": 26,
+   "n": 63,
+   "rate": 0.4127,
+   "ci95": [
+    0.2901,
+    0.5438
+   ]
+  },
+  "wrong": [
+   {
+    "field": "pfs_castillo.date",
+    "expected": "2026-06-19",
+    "got": null
+   },
+   {
+    "field": "pfs_castillo.dob",
+    "expected": "1976-12-03",
+    "got": null
+   },
+   {
+    "field": "pfs_castillo.total_liabilities",
+    "expected": "910000",
+    "got": null
+   },
+   {
+    "field": "pfs_castillo.net_worth",
+    "expected": "1850000",
+    "got": null
+   }
+  ]
+ },
+ "planted": [
+  {
+   "id": "T1",
+   "kind": "bridge",
+   "what": "FY2025 NOI 328,600 vs 8825 line 19 42,500; interest, depreciation and amortization bridge it to 338,200, leaving -9,600.",
+   "pass": true,
+   "evidence": "bridge residual_located, located ['gross_rents']"
+  },
+  {
+   "id": "T2",
+   "kind": "real_conflict",
+   "what": "Gross rents 512,400 (cash-basis statement) vs 8825 line 2a 522,000. No catalog bridge applies (cash vs accrual is not in the catalog).",
+   "pass": true,
+   "evidence": "axes ['integrity']; card conflict:gross_rents:2025 present"
+  },
+  {
+   "id": "T3",
+   "kind": "rule_boundary",
+   "what": "Ana Ruiz owns exactly 25%, which counts as a beneficial owner (25 percent or more).",
+   "pass": true,
+   "evidence": "beneficial owners ['person:anaruiz-7745', 'person:owencastillo-6121', 'person:priyaraman-3308']"
+  },
+  {
+   "id": "T4",
+   "kind": "trap_entity",
+   "what": "PFS for \"Ana Ru\u00edz\" (SSN ...2290, born 1962) is not member Ana Ruiz (SSN ...7745, born 1990).",
+   "pass": true,
+   "evidence": "card entity:unmatched:pfs_ruiz present"
+  },
+  {
+   "id": "T5",
+   "kind": "missing",
+   "what": "No PFS for Ana Ruiz (>=25% owner) once T4 is handled; no appraisal at all, so LTV cannot be computed.",
+   "pass": true,
+   "evidence": "card missing:pfs:person:anaruiz-7745 present; card missing:appraisal present; rule ltv = unresolved"
+  },
+  {
+   "id": "T6",
+   "kind": "real_conflict",
+   "what": "Rent roll states total monthly rent 43,300 but its unit rows sum to 42,100.",
+   "pass": true,
+   "evidence": "axes ['integrity']; card integrity:rent_roll:total monthly rent present"
+  },
+  {
+   "id": "T7",
+   "kind": "trap_period",
+   "what": "The trailing twelve months (Jun 2025 - May 2026) vs FY2025 and vs the TY2025 return.",
+   "pass": false,
+   "evidence": "gross_rents not_comparable different_period: 2 found"
+  },
+  {
+   "id": "T8",
+   "kind": "noise_units",
+   "what": "The trailing-twelve-month statement is in $000s (531.6 = 531,600).",
+   "pass": true,
+   "evidence": "14 values scaled x1000"
+  },
+  {
+   "id": "T9",
+   "kind": "noise_entity_names",
+   "what": "\"Northgate Birchview LLC\", \"Northgate-Birchview, LLC\" and \"NORTHGATE BIRCHVIEW L.L.C.\" are one borrower (EIN 07-6630918).",
+   "pass": true,
+   "evidence": "org merged across 5 docs: True"
+  },
+  {
+   "id": "T10",
+   "kind": "noise_collateral",
+   "what": "\"2200 Birchview Ter.\" vs \"2200 Birchview Terrace\".",
+   "pass": true,
+   "evidence": "collateral merged across 2 docs: True"
+  },
+  {
+   "id": "T11",
+   "kind": "noise_mapping",
+   "what": "Property management 21,200 + turnover 9,800 + amortization 3,000 (4562 line 44) = 8825 line 17 34,000.",
+   "pass": true,
+   "evidence": "other_opex equal_after_mapping : 1 found"
+  },
+  {
+   "id": "T12",
+   "kind": "noise_units",
+   "what": "\"$3.15MM\" in the narrative vs \"$3,150,000\" in the table; \"300 months\" amortization = 25 years.",
+   "pass": true,
+   "evidence": "loan_amount equal_after_transform : 1 found"
+  }
+ ],
+ "traps_and_noise_handled": {
+  "k": 8,
+  "n": 9,
+  "rate": 0.8889,
+  "ci95": [
+   0.5175,
+   0.9972
+  ]
+ },
+ "order_invariance": {
+  "orders": [
+   "A",
+   "B",
+   "C"
+  ],
+  "identical_to_A": [
+   "A",
+   "B",
+   "C"
+  ],
+  "k": 3,
+  "n": 3,
+  "rate": 1.0,
+  "ci95": [
+   0.2924,
+   1.0
+  ]
+ },
+ "stale_decisions": null,
+ "wrong_merges": 0,
+ "cost_per_file": {
+  "model_calls": 24,
+  "tokens_in": 28902,
+  "tokens_out": 9679,
+  "providers": [
+   "groq:openai/gpt-oss-120b"
+  ]
+ }
+}
