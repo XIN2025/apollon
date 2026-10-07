@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+gen/out/
+*.sqlite
+research/
+.env
+.cache/
+runs/*.sqlite
+

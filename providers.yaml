@@ -1,0 +1,30 @@
+# Tried in order. Only synthetic data is ever sent to hosted free tiers.
+providers:
+  - name: groq
+    base_url: https://api.groq.com/openai/v1
+    key_env: GROQ_API_KEY
+    model: openai/gpt-oss-120b
+    json_mode: true
+  - name: groq-qwen
+    base_url: https://api.groq.com/openai/v1
+    key_env: GROQ_API_KEY
+    model: qwen/qwen3.8-27b
+    json_mode: true
+  - name: openrouter-nemotron
+    base_url: https://openrouter.ai/api/v1
+    key_env: OPENROUTER_API_KEY
+    model: nvidia/nemotron-3-super-120b-a12b:free
+    json_mode: false
+  - name: openrouter-gemma
+    base_url: https://openrouter.ai/api/v1
+    key_env: OPENROUTER_API_KEY
+    model: google/gemma-4-31b-it:free
+    json_mode: false
+  - name: ollama
+    base_url: http://localhost:11434/v1
+    key_env: null
+    model: qwen3.5:4b
+    json_mode: true
+    local: true
+    timeout: 900
+    extra: {reasoning_effort: none}   # a 4B thinking model on a 4 GB GPU is too slow with thinking on
