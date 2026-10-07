@@ -1,0 +1,289 @@
+id: birchview
+split: test
+template: v2
+note: Blind test borrower. Different templates, labels and number formats from cedar_row. Never used while building the engine.
+
+truth:
+  borrower: {name: Northgate Birchview LLC, ein: "07-6630918", type: LLC, state: OR}
+  collateral:
+    name: Birchview Flats
+    address: "2200 Birchview Terrace, Riverton, OR 97000"
+    apn: R-2207-0450-0
+    type: multifamily
+    units: 24
+  loan: {amount: 3150000, rate: 0.065, amort_years: 25, term_years: 10, purpose: refinance}
+  people:
+    - {id: raman, name: Priya Raman, ssn4: "3308", dob: 1981-05-17, address: "48 Juniper Way, Riverton, OR 97000"}
+    - {id: castillo, name: Owen Castillo, ssn4: "6121", dob: 1976-12-03, address: "310 Quarry Road, Riverton, OR 97000"}
+    - {id: ruiz, name: Ana Ruiz, ssn4: "7745", dob: 1990-07-21, address: "15 Sorrel Street, Riverton, OR 97000"}
+  not_parties:
+    - {id: ruiz_other, name: Ana Ruíz, ssn4: "2290", dob: 1962-01-09, address: "880 Meadow Lane, Riverton, OR 97000"}
+  members_pct: {raman: 40, castillo: 35, ruiz: 25}
+  control_person: raman
+  fy2025_actual:
+    gross_rents: 522000
+    other_income: 9000
+    advertising: 2400
+    cleaning_maintenance: 21600
+    insurance: 19800
+    legal_professional: 5100
+    re_taxes: 52300
+    repairs: 18700
+    utilities: 41900
+    other_expenses: 31000      # management 21,200 + turnover 9,800 (8825 line 17 also carries 3,000 amortization)
+    interest: 151200
+    depreciation: 141500
+    amortization: 3000
+    noi: 338200
+
+documents:
+  - id: loan_request
+    type: loan_request
+    title: Credit Request - Northgate Birchview LLC
+    date: 2026-07-14
+    content:
+      narrative: >-
+        Northgate Birchview LLC seeks $3.15MM in permanent financing to refinance Birchview Flats, a 24-unit
+        apartment community at 2200 Birchview Ter., Riverton, OR. The members will provide personal guaranties.
+      table:
+        Applicant: Northgate Birchview LLC
+        Tax ID (EIN): "07-6630918"
+        Collateral: Birchview Flats
+        Collateral address: "2200 Birchview Ter., Riverton, OR 97000"
+        Parcel number: R-2207-0450-0
+        Loan amount requested: "$3,150,000"
+        Fixed rate: 6.50%
+        Amortization period: 300 months
+        Loan term: 120 months
+        Use of proceeds: Refinance existing debt
+
+  - id: rent_roll
+    type: rent_roll
+    title: Birchview Flats - Resident Rent Roll
+    as_of: 2026-06-30
+    columns: [Apt, Bed/Bath, Resident, Move-in, Lease expiration, Rent, Security deposit]
+    rows:
+      - [101, 1/1, B. Achebe,    2025-09-01, 2026-08-31, 1650, 1000]
+      - [102, 1/1, V. Petrov,    2025-04-01, 2026-03-31, 1625, 1000]
+      - [103, 1/1, N. Shah,      2026-01-15, 2027-01-14, 1650, 1000]
+      - [104, 1/1, R. Duarte,    2025-11-01, 2026-10-31, 1650, 1000]
+      - [105, 1/1, Y. Sato,      2025-06-01, 2026-05-31, 1625, 1000]
+      - [106, 1/1, L. Fontaine,  2026-03-01, 2027-02-28, 1650, 1000]
+      - [107, 1/1, T. Okoye,     2025-12-01, 2026-11-30, 1650, 1000]
+      - [108, 1/1, M. Varga,     2025-07-01, 2026-06-30, 1625, 1000]
+      - [109, 1/1, C. Murphy,    2026-02-01, 2027-01-31, 1650, 1000]
+      - [110, 1/1, D. Reyes,     2025-10-01, 2026-09-30, 1650, 1000]
+      - [111, 1/1, H. Larsen,    2026-04-01, 2027-03-31, 1650, 1000]
+      - [112, 1/1, S. Abbasi,    2025-08-01, 2026-07-31, 1625, 1000]
+      - [201, 2/2, K. Wright,    2025-09-15, 2026-09-14, 2050, 1500]
+      - [202, 2/2, F. Moreno,    2025-05-01, 2026-04-30, 2000, 1500]
+      - [203, 2/2, J. Kowalski,  2026-01-01, 2026-12-31, 2050, 1500]
+      - [204, 2/2, E. Nakamura,  2025-11-01, 2026-10-31, 2050, 1500]
+      - [205, 2/2, A. Hughes,    2025-06-01, 2026-05-31, 2000, 1500]
+      - [206, 2/2, P. Silva,     2026-02-15, 2027-02-14, 2050, 1500]
+      - [207, 2/2, G. Osei,      2025-12-01, 2026-11-30, 2050, 1500]
+      - [208, 2/2, W. Becker,    2026-05-01, 2027-04-30, 2050, 1500]
+      - [209, 2/2, VACANT,       null,       null,       0,    0]
+      - [210, 2/2, I. Romano,    2025-08-01, 2026-07-31, 2000, 1500]
+      - [211, 2/2, Q. Fischer,   2026-03-01, 2027-02-28, 2050, 1500]
+      - [212, 2/2, Z. Ali,       2025-10-15, 2026-10-14, 2050, 1500]
+    totals: {occupied_units: 23, total_units: 24, monthly_rent: 43300}   # PLANTED T6: rows sum to 42,100
+
+  - id: operating_statement
+    type: operating_statement
+    title: Birchview Flats - Income Statement, Year Ended December 31, 2025
+    period: {start: 2025-01-01, end: 2025-12-31}
+    prepared_by: Owner (cash basis, unaudited)
+    lines:
+      - [Gross rental revenue, 512400]        # PLANTED T2: cash basis, 9,600 below the return
+      - [Other revenue, 9000]
+      - [Total revenue, 521400]
+      - [Marketing, 2400]
+      - [Janitorial and upkeep, 21600]
+      - [Property insurance, 19800]
+      - [Professional fees, 5100]
+      - [Real estate tax, 52300]
+      - [Repairs and maintenance, 18700]
+      - [Utilities, 41900]
+      - [Property management, 21200]
+      - [Turnover and other, 9800]
+      - [Total expenses, 192800]
+      - [Net operating income (NOI), 328600]
+
+  - id: t12
+    type: operating_statement
+    title: Birchview Flats - Trailing Twelve Months
+    period: {start: 2025-06-01, end: 2026-05-31}
+    prepared_by: Owner (unaudited)
+    units: thousands
+    lines:
+      - [Rental revenue, 531.6]
+      - [Other revenue, 9.3]
+      - [Total revenue, 540.9]
+      - [Marketing, 2.5]
+      - [Janitorial and maintenance, 22.0]
+      - [Insurance, 20.4]
+      - [Professional fees, 5.2]
+      - [Property taxes, 53.1]
+      - [Repairs and maintenance, 19.0]
+      - [Utilities, 42.6]
+      - [Management, 21.6]
+      - [Turnover and other, 10.1]
+      - [Total operating expenses, 196.5]
+      - [Net operating income, 344.4]
+
+  - id: certification
+    type: ownership_certification
+    title: Beneficial Ownership Certification - Northgate Birchview LLC
+    date: 2026-06-20
+    signed_by: Priya Raman, Manager
+    entity: {name: Northgate Birchview LLC, ein: "07-6630918"}
+    owners:
+      - {name: Priya Raman,   dob: 1981-05-17, address: "48 Juniper Way, Riverton, OR 97000",  ssn: XXX-XX-3308, pct: 40}
+      - {name: Owen Castillo, dob: 1976-12-03, address: "310 Quarry Road, Riverton, OR 97000", ssn: XXX-XX-6121, pct: 35}
+      - {name: Ana Ruiz,      dob: 1990-07-21, address: "15 Sorrel Street, Riverton, OR 97000", ssn: XXX-XX-7745, pct: 25}
+    control_person: Priya Raman
+
+  - id: operating_agreement
+    type: operating_agreement
+    title: Northgate Birchview LLC - Schedule of Members
+    date: 2024-02-01
+    content:
+      narrative: >-
+        The Members of Northgate Birchview LLC and their respective Percentage Interests are listed below.
+        Priya Raman holds forty percent (40%), Owen Castillo holds thirty-five percent (35%) and
+        Ana Ruiz holds twenty-five percent (25%). Priya Raman serves as Manager.
+      members:
+        - [Priya Raman, "48 Juniper Way, Riverton, OR 97000", 40%]
+        - [Owen Castillo, "310 Quarry Road, Riverton, OR 97000", 35%]
+        - [Ana Ruiz, "15 Sorrel Street, Riverton, OR 97000", 25%]
+
+  - id: pfs_raman
+    type: pfs
+    title: Personal Financial Statement - Priya Raman
+    date: 2026-06-18
+    person: {name: Priya Raman, ssn: XXX-XX-3308, dob: 1981-05-17, address: "48 Juniper Way, Riverton, OR 97000"}
+    values: {total_assets: 5120000, total_liabilities: 1880000, net_worth: 3240000, liquid_assets: 640000}
+
+  - id: pfs_castillo
+    type: pfs
+    title: Personal Financial Statement - Owen Castillo
+    date: 2026-06-19
+    render: scan
+    person: {name: Owen Castillo, ssn: XXX-XX-6121, dob: 1976-12-03, address: "310 Quarry Road, Riverton, OR 97000"}
+    values: {total_assets: 2760000, total_liabilities: 910000, net_worth: 1850000, liquid_assets: 220000}
+
+  - id: pfs_ruiz
+    type: pfs
+    title: Personal Financial Statement - Ana Ruíz
+    date: 2026-06-19
+    person: {name: Ana Ruíz, ssn: XXX-XX-2290, dob: 1962-01-09, address: "880 Meadow Lane, Riverton, OR 97000"}   # PLANTED T4
+    values: {total_assets: 1340000, total_liabilities: 150000, net_worth: 1190000, liquid_assets: 95000}
+
+  - id: form_8825
+    type: irs_8825
+    title: Form 8825 (TY2025) - Northgate-Birchview, LLC
+    tax_year: 2025
+    header: {name: "Northgate-Birchview, LLC", ein: "07-6630918"}
+    property_a: {address: "2200 Birchview Terrace, Riverton, OR 97000", type_code: 2, fair_rental_days: 365, personal_use_days: 0}
+    lines:
+      2a: 522000
+      2b: 9000
+      2c: 531000
+      3: 2400
+      5: 21600
+      7: 19800
+      8: 151200
+      9: 5100
+      10: 52300
+      11: 18700
+      12: 41900
+      14: 141500
+      17: 34000
+      18: 488500
+      19: 42500
+      20a: 531000
+      20b: 488500
+      23: 42500
+
+  - id: form_4562
+    type: irs_4562
+    title: Form 4562 (TY2025) - Northgate-Birchview, LLC
+    tax_year: 2025
+    header: {name: "NORTHGATE BIRCHVIEW L.L.C.", activity: Rental real estate - Form 8825, ein: "07-6630918"}
+    lines:
+      17: 136900
+      19b: 4600
+      22: 141500
+      43: 3000
+      44: 3000
+    detail: {19b_month: "04", 19b_basis: 23000, 19b_period: 5 yrs, 19b_conv: HY, 19b_method: 200DB}
+
+arrival_orders:
+  A: [loan_request, rent_roll, operating_statement, t12, certification, operating_agreement, pfs_raman, pfs_castillo, pfs_ruiz, form_8825, form_4562]
+  B: [form_4562, form_8825, pfs_ruiz, pfs_castillo, pfs_raman, operating_agreement, certification, t12, operating_statement, rent_roll, loan_request]
+  C: [operating_statement, form_8825, certification, pfs_ruiz, loan_request, t12, form_4562, rent_roll, pfs_raman, operating_agreement, pfs_castillo]
+
+reviewer_script: []
+
+planted:
+  - id: T1
+    match: {bridge: residual_located, located: gross_rents}
+    kind: bridge
+    what: FY2025 NOI 328,600 vs 8825 line 19 42,500; interest, depreciation and amortization bridge it to 338,200, leaving -9,600.
+    expect: {status: partially_explained, bridge: [interest, depreciation, amortization], bridged_value: 338200, residual: -9600, residual_located_in: T2}
+  - id: T2
+    match: {card: 'conflict:gross_rents:2025', axes: [integrity], hypothesis: true}
+    kind: real_conflict
+    what: Gross rents 512,400 (cash-basis statement) vs 8825 line 2a 522,000. No catalog bridge applies (cash vs accrual is not in the catalog).
+    expect: {status: conflict, axes: [integrity], decision_impact: none, investigator: hypothesis_unverified}
+  - id: T3
+    match: {beneficial_owner: ruiz}
+    kind: rule_boundary
+    what: Ana Ruiz owns exactly 25%, which counts as a beneficial owner (25 percent or more).
+    expect: {status: beneficial_owner}
+  - id: T4
+    match: {card: 'entity:unmatched:pfs_ruiz', not_merged: [pfs_ruiz, certification]}
+    kind: trap_entity
+    what: PFS for "Ana Ruíz" (SSN ...2290, born 1962) is not member Ana Ruiz (SSN ...7745, born 1990).
+    expect: {status: no_merge, finding: document_for_unidentified_party}
+  - id: T5
+    match: {cards: ['missing:pfs:person:anaruiz-7745', 'missing:appraisal'], rule: [ltv, unresolved]}
+    kind: missing
+    what: No PFS for Ana Ruiz (>=25% owner) once T4 is handled; no appraisal at all, so LTV cannot be computed.
+    expect: {status: missing, items: [pfs_ruiz, appraisal], rule_ltv: unresolved}
+  - id: T6
+    match: {card: 'integrity:rent_roll:total monthly rent', axes: [integrity]}
+    kind: real_conflict
+    what: Rent roll states total monthly rent 43,300 but its unit rows sum to 42,100.
+    expect: {status: conflict, axes: [integrity], decision_impact: none}
+  - id: T7
+    match: {comparison: [gross_rents, not_comparable, different_period]}
+    kind: trap_period
+    what: The trailing twelve months (Jun 2025 - May 2026) vs FY2025 and vs the TY2025 return.
+    expect: {status: not_comparable, reason: different_period}
+  - id: T8
+    match: {scaled: t12}
+    kind: noise_units
+    what: The trailing-twelve-month statement is in $000s (531.6 = 531,600).
+    expect: {status: scaled, transform: thousands}
+  - id: T9
+    match: {merged: [org, [loan_request, form_8825, form_4562, certification, operating_agreement]]}
+    kind: noise_entity_names
+    what: '"Northgate Birchview LLC", "Northgate-Birchview, LLC" and "NORTHGATE BIRCHVIEW L.L.C." are one borrower (EIN 07-6630918).'
+    expect: {status: merged, basis: ein}
+  - id: T10
+    match: {merged: [collateral, [loan_request, form_8825]]}
+    kind: noise_collateral
+    what: '"2200 Birchview Ter." vs "2200 Birchview Terrace".'
+    expect: {status: merged, basis: address}
+  - id: T11
+    match: {comparison: [other_opex, equal_after_mapping]}
+    kind: noise_mapping
+    what: Property management 21,200 + turnover 9,800 + amortization 3,000 (4562 line 44) = 8825 line 17 34,000.
+    expect: {status: equal_after_mapping}
+  - id: T12
+    match: {comparison: [loan_amount, equal_after_transform]}
+    kind: noise_units
+    what: '"$3.15MM" in the narrative vs "$3,150,000" in the table; "300 months" amortization = 25 years.'
+    expect: {status: equal_after_transform}

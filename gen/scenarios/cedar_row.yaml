@@ -1,0 +1,292 @@
+id: cedar_row
+split: dev
+template: v1
+note: Synthetic borrower. All names, identifiers and addresses are fictional. Policy values are example policy.
+
+truth:
+  borrower: {name: Cedar Row Holdings LLC, ein: "07-4418203", type: LLC, state: OR}
+  collateral:
+    name: Cedar Row Apartments
+    address: "418 Cedar Row Lane, Riverton, OR 97000"
+    apn: R-1184-0217-0
+    type: multifamily
+    units: 16
+  loan: {amount: 2400000, rate: 0.0675, amort_years: 25, term_years: 10, purpose: refinance}
+  people:
+    - {id: whitfield, name: Dana Whitfield, ssn4: "1187", dob: 1979-08-14, address: "22 Larch Court, Riverton, OR 97000"}
+    - {id: lee, name: Marcus Lee, ssn4: "5520", dob: 1983-02-09, address: "9 Harbor View Drive, Riverton, OR 97000"}
+    - {id: ortiz_jr, name: James Ortiz Jr., ssn4: "9032", dob: 1986-11-30, address: "1520 Pine Avenue, Riverton, OR 97000"}
+  not_parties:
+    - {id: ortiz_sr, name: James Ortiz, ssn4: "4471", dob: 1958-03-22, address: "77 Birch Lane, Riverton, OR 97000"}
+  members_pct: {whitfield: 50, lee: 26, ortiz_jr: 24}   # per Amendment No. 1, 2026-04-15
+  control_person: whitfield
+  fy2025_actual:   # what really happened in calendar 2025; the filed return is correct
+    gross_rents: 384600
+    other_income: 7800
+    advertising: 2100
+    cleaning_maintenance: 16800
+    insurance: 14600
+    legal_professional: 4300
+    re_taxes: 41800
+    repairs: 13900
+    utilities: 31200
+    other_expenses: 25700      # management fees 15,700 + landscaping and pest 10,000
+    interest: 106850
+    depreciation: 98100
+    noi: 242000
+
+documents:
+  - id: loan_request
+    type: loan_request
+    title: Loan Request - Cedar Row Holdings LLC
+    date: 2026-07-08
+    content:
+      narrative: >-
+        Cedar Row Holdings LLC requests a $2.4MM first-mortgage refinance of Cedar Row Apartments,
+        a 16-unit multifamily property at 418 Cedar Row Lane, Riverton, OR. Proceeds retire the existing
+        first mortgage and fund a capital reserve for unit turnover.
+      table:
+        Borrower: Cedar Row Holdings LLC
+        Borrower EIN: "07-4418203"
+        Property: Cedar Row Apartments
+        Property address: "418 Cedar Row Lane, Riverton, OR 97000"
+        Assessor parcel number: R-1184-0217-0
+        Requested amount: "2,400,000"
+        Interest rate (fixed): 6.75%
+        Amortization: 25 years
+        Term: 10 years
+        Purpose: Refinance
+        Existing first mortgage payoff: "2,050,000"
+
+  - id: rent_roll
+    type: rent_roll
+    title: Rent Roll - Cedar Row Apartments
+    as_of: 2026-06-30
+    columns: [Unit, Type, Tenant, Lease start, Lease end, Monthly rent, Deposit]
+    rows:
+      - [101, 1BR, A. Patel,     2025-08-01, 2026-07-31, 1950, 1950]
+      - [102, 1BR, R. Gomez,     2025-11-01, 2026-10-31, 1915, 1900]
+      - [103, 1BR, T. Nguyen,    2026-02-01, 2027-01-31, 1950, 1950]
+      - [104, 1BR, L. Moreau,    2025-05-01, 2026-04-30, 1915, 1900]   # month-to-month after expiry
+      - [105, 1BR, S. Okafor,    2026-03-01, 2027-02-28, 1950, 1950]
+      - [106, 1BR, D. Kim,       2025-09-01, 2026-08-31, 1950, 1950]
+      - [107, 1BR, M. Rossi,     2026-06-01, 2027-05-31, 1950, 1950]   # leased after appraisal inspection
+      - [108, 1BR, J. Haddad,    2025-10-01, 2026-09-30, 1915, 1900]
+      - [201, 2BR, C. Brandt,    2026-01-01, 2026-12-31, 2450, 2450]
+      - [202, 2BR, E. Walsh,     2025-07-01, 2026-06-30, 2395, 2400]
+      - [203, 2BR, F. Ibrahim,   2026-04-01, 2027-03-31, 2450, 2450]
+      - [204, 2BR, VACANT,       null,       null,       0,    0]
+      - [205, 2BR, G. Lindqvist, 2025-12-01, 2026-11-30, 2450, 2450]
+      - [206, 2BR, H. Tanaka,    2025-08-01, 2026-07-31, 2395, 2400]
+      - [207, 2BR, K. Mensah,    2026-05-01, 2027-04-30, 2450, 2450]
+      - [208, 2BR, P. Novak,     2025-11-01, 2026-10-31, 2450, 2450]
+    totals: {occupied_units: 15, total_units: 16, monthly_rent: 32535}
+
+  - id: operating_statement
+    type: operating_statement
+    title: Operating Statement FY2025 - Cedar Row Apartments
+    period: {start: 2025-01-01, end: 2025-12-31}
+    prepared_by: Borrower (unaudited)
+    lines:   # label as printed, amount as printed
+      - [Rental income, 384600.00]
+      - ["Laundry, parking and fees", 7800.40]
+      - [Total income, 392400.40]
+      - [Advertising and leasing, 2100.00]
+      - [Cleaning and maintenance, 16800.00]
+      - [Insurance, 14600.00]
+      - [Legal and accounting, 4300.00]
+      - [Property taxes, 27200.00]          # PLANTED P2: understated by 14,600
+      - [Repairs, 13900.00]
+      - [Utilities, 31200.00]
+      - [Management fees, 15700.00]
+      - [Landscaping and pest control, 10000.00]
+      - [Total operating expenses, 135800.00]
+      - [Net operating income, 256600.40]
+
+  - id: appraisal
+    type: appraisal
+    title: Appraisal Summary - Cedar Row Apartments
+    effective_date: 2026-05-20
+    client: CEDAR ROW HOLDINGS LLC
+    content:
+      narrative: >-
+        The subject is a 16-unit garden-style multifamily property at 418 Cedar Row Ln, Riverton, OR.
+        At inspection on May 20, 2026, 14 of 16 units were occupied (units 107 and 204 vacant).
+        The income approach applies direct capitalization to a stabilized net operating income.
+      table:
+        Assessor parcel number: R-1184-0217-0
+        Units: 16
+        Occupied units at inspection: 14
+        Potential gross income: "422,400"
+        Real estate taxes (estimate): "42,000"
+        Net operating income (stabilized): "258,000"
+        Capitalization rate: 6.25%
+        As-is market value: "4,130,000"
+
+  - id: certification
+    type: ownership_certification
+    title: Certification of Beneficial Owners - Cedar Row Holdings LLC
+    date: 2026-03-02
+    signed_by: Dana Whitfield, Managing Member
+    entity: {name: Cedar Row Holdings LLC, ein: "07-4418203"}
+    owners:   # PLANTED P4: pre-amendment percentages
+      - {name: Dana Whitfield,  dob: 1979-08-14, address: "22 Larch Court, Riverton, OR 97000",  ssn: XXX-XX-1187, pct: 50}
+      - {name: Marcus Lee,      dob: 1983-02-09, address: "9 Harbor View Drive, Riverton, OR 97000", ssn: XXX-XX-5520, pct: 24}
+      - {name: James Ortiz Jr., dob: 1986-11-30, address: "1520 Pine Avenue, Riverton, OR 97000", ssn: XXX-XX-9032, pct: 26}
+    control_person: Dana Whitfield
+
+  - id: pfs_whitfield
+    type: pfs
+    title: Personal Financial Statement - Dana Whitfield
+    date: 2026-03-05
+    person: {name: Dana Whitfield, ssn: XXX-XX-1187, dob: 1979-08-14, address: "22 Larch Court, Riverton, OR 97000"}
+    values: {total_assets: 3850000, total_liabilities: 1210000, net_worth: 2640000, liquid_assets: 410000}
+
+  - id: pfs_ortiz
+    type: pfs
+    title: Personal Financial Statement - James Ortiz
+    date: 2026-03-06
+    render: scan
+    person: {name: James Ortiz, ssn: XXX-XX-4471, dob: 1958-03-22, address: "77 Birch Lane, Riverton, OR 97000"}  # PLANTED P6
+    values: {total_assets: 1920000, total_liabilities: 240000, net_worth: 1680000, liquid_assets: 185000}
+
+  - id: operating_agreement
+    type: operating_agreement
+    title: Operating Agreement of Cedar Row Holdings LLC - Exhibit A (as amended)
+    date: 2026-04-15
+    content:
+      narrative: >-
+        This Exhibit A sets out the Members of Cedar Row Holdings LLC, an Oregon limited liability company,
+        and their Membership Interests. Pursuant to Amendment No. 1 dated April 15, 2026, James Ortiz Jr.
+        assigned a two percent (2%) Membership Interest to Marcus Lee, so that Marcus Lee now holds
+        twenty-six percent (26%) and James Ortiz Jr. holds twenty-four percent (24%).
+        Dana Whitfield remains the Managing Member.
+      members:
+        - [Dana Whitfield, "22 Larch Court, Riverton, OR 97000", 50%]
+        - [Marcus Lee, "9 Harbor View Drive, Riverton, OR 97000", 26%]
+        - [James Ortiz Jr., "1520 Pine Avenue, Riverton, OR 97000", 24%]
+
+  - id: form_8825
+    type: irs_8825
+    title: Form 8825 (TY2025) - Cedar Row Holdings, L.L.C.
+    tax_year: 2025
+    header: {name: "Cedar Row Holdings, L.L.C.", ein: "07-4418203"}
+    property_a: {address: "418 Cedar Row Lane, Riverton, OR 97000", type_code: 2, fair_rental_days: 365, personal_use_days: 0}
+    lines:   # Form 8825 Rev. 12-2025 line numbers, column A
+      2a: 384600
+      2b: 7800
+      2c: 392400
+      3: 2100
+      5: 16800
+      7: 14600
+      8: 106850
+      9: 4300
+      10: 41800
+      11: 13900
+      12: 31200
+      14: 98100
+      17: 25700
+      18: 355350
+      19: 37050
+      20a: 392400
+      20b: 355350
+      23: 37050
+
+  - id: form_4562
+    type: irs_4562
+    title: Form 4562 (TY2025) - Cedar Row Holdings, L.L.C.
+    tax_year: 2025
+    header: {name: "Cedar Row Holdings, L.L.C.", activity: Rental real estate - Form 8825, ein: "07-4418203"}
+    lines:
+      17: 95790      # MACRS, assets placed in service before 2025 (building)
+      19b: 2310      # 5-year property placed in service in 2025 (appliances)
+      22: 98100      # total, ties to 8825 line 14
+    detail: {19b_month: "06", 19b_basis: 11550, 19b_period: 5 yrs, 19b_conv: HY, 19b_method: 200DB}
+
+arrival_orders:
+  A: [loan_request, rent_roll, operating_statement, appraisal, certification, pfs_whitfield, pfs_ortiz, operating_agreement, form_8825, form_4562]
+  B: [form_8825, form_4562, operating_agreement, loan_request, appraisal, operating_statement, rent_roll, pfs_ortiz, certification, pfs_whitfield]
+  C: [certification, operating_agreement, pfs_whitfield, pfs_ortiz, form_4562, operating_statement, form_8825, rent_roll, loan_request, appraisal]
+
+reviewer_script:   # order A only
+  - after: pfs_ortiz
+    action: accept
+    target: ownership                 # reviewer accepts the beneficial-owner set as certified
+    reason_code: verified_against_certification
+    expect_after_all: stale           # goes stale when the operating agreement arrives
+
+planted:
+  - id: P1
+    match: {bridge: residual_located, located: re_taxes}
+    kind: bridge
+    what: Operating statement NOI (256,600.40) vs Form 8825 line 19 (37,050). Same entity and period; different basis.
+    expect: {status: partially_explained, bridge: [interest, depreciation], bridged_value: 242000, residual: 14600.40, residual_located_in: P2}
+    evidence: [8825 line 8 = 106,850, 8825 line 14 = 98,100, 4562 line 22 = 98,100 (tie)]
+  - id: P2
+    match: {card: 'conflict:re_taxes:2025', axes: [decision, integrity]}
+    kind: real_conflict
+    what: Property taxes, operating statement 27,200 vs Form 8825 line 10 41,800 (appraisal estimate 42,000 supports the return).
+    expect: {status: conflict, axes: [decision, integrity], authority: irs_8825, working_value: 41800,
+             decision_impact: "DSCR 1.29 pass -> 1.22 fail at 1.25x minimum"}
+  - id: P3
+    match: {coincidence: insurance}
+    kind: trap_coincidence
+    what: The 14,600 residual equals insurance (8825 line 7 = 14,600). Insurance matches on both documents, so it cannot be the explanation.
+    expect: {status: not_used_as_explanation}
+  - id: P4
+    match: {card: conflict:ownership, axes: [decision, integrity]}
+    kind: real_conflict
+    what: Ownership. Certification (2026-03-02) says Lee 24% / Ortiz Jr. 26%; Operating Agreement Exhibit A as amended 2026-04-15 says Lee 26% / Ortiz Jr. 24%.
+    expect: {status: conflict, axes: [decision, integrity], authority: operating_agreement, working_value: {lee: 26, ortiz_jr: 24},
+             decision_impact: "beneficial owners (>=25%) change from {Whitfield, Ortiz Jr.} to {Whitfield, Lee}",
+             finding: certification_predates_amendment}
+  - id: P5
+    match: {card: 'missing:pfs:person:marcuslee-5520'}
+    kind: missing
+    what: No personal financial statement for Marcus Lee, who is a >=25% owner once P4 is resolved.
+    expect: {status: missing, depends_on: P4}
+  - id: P6
+    match: {card: 'entity:unmatched:pfs_ortiz', not_merged: [pfs_ortiz, certification]}
+    kind: trap_entity
+    what: The PFS for "James Ortiz" (SSN ...4471, born 1958) is not member James Ortiz Jr. (SSN ...9032, born 1986). Name similarity alone must not merge them.
+    expect: {status: no_merge, finding: document_for_unidentified_party}
+  - id: P7
+    match: {comparison: [gross_rents, not_comparable, point_in_time_vs_period]}
+    kind: trap_period
+    what: Rent roll in-place rent annualised (32,535 x 12 = 390,420, as of 2026-06-30) vs Form 8825 gross rents (384,600, TY2025).
+    expect: {status: not_comparable, reason: point_in_time_vs_period}
+  - id: P8
+    match: {comparison: [occupancy, not_comparable, different_as_of]}
+    kind: trap_timing
+    what: Occupancy 14/16 in the appraisal (2026-05-20) vs 15/16 in the rent roll (2026-06-30). Unit 107 was leased 2026-06-01.
+    expect: {status: not_comparable, reason: different_as_of_dates, rule_occupancy: pass_both}
+  - id: P9
+    match: {comparison: [other_income, equal_after_transform]}
+    kind: noise_rounding
+    what: Other income 7,800.40 (operating statement) vs 7,800 (8825 line 2b, whole dollars).
+    expect: {status: equal_after_transform, transform: round_whole_dollars}
+  - id: P10
+    match: {comparison: [other_opex, equal_after_mapping]}
+    kind: noise_mapping
+    what: Management fees 15,700 + landscaping and pest 10,000 on the statement map to 8825 line 17 other deductions 25,700.
+    expect: {status: equal_after_mapping}
+  - id: P11
+    match: {merged: [org, [loan_request, form_8825, form_4562, appraisal, certification, operating_agreement]]}
+    kind: noise_entity_names
+    what: '"Cedar Row Holdings LLC", "Cedar Row Holdings, L.L.C." and "CEDAR ROW HOLDINGS LLC" are one borrower (EIN 07-4418203 where shown).'
+    expect: {status: merged, basis: ein}
+  - id: P12
+    match: {comparison: [loan_amount, equal_after_transform]}
+    kind: noise_units
+    what: Loan amount "$2.4MM" in the narrative vs "2,400,000" in the table.
+    expect: {status: equal_after_transform, transform: unit_suffix}
+  - id: P13
+    match: {rule: [appraisal_tie, pass]}
+    kind: tie_out
+    what: Appraised value 4,130,000 vs NOI 258,000 / cap rate 6.25% = 4,128,000.
+    expect: {status: pass, tolerance: 1%}
+  - id: P14
+    match: {merged: [collateral, [loan_request, appraisal, form_8825, rent_roll, operating_statement]]}
+    kind: noise_collateral
+    what: '"418 Cedar Row Ln" (appraisal) vs "418 Cedar Row Lane" (loan request); same APN.'
+    expect: {status: merged, basis: apn}
