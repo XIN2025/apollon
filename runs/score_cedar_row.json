@@ -1,0 +1,227 @@
+{
+ "scenario": "cedar_row",
+ "split": "dev",
+ "headline": {
+  "real_issue_recall": {
+   "k": 4,
+   "n": 4,
+   "rate": 1.0,
+   "ci95": [
+    0.3976,
+    1.0
+   ]
+  },
+  "false_explained_rate": {
+   "k": 0,
+   "n": 2,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.8419
+   ]
+  },
+  "alert_load": {
+   "engine_cards": 4,
+   "naive_diff_alerts": 8,
+   "naive_fields": [
+    "noi",
+    "org_name",
+    "other_income",
+    "pct:jamesortizjr",
+    "pct:marcuslee",
+    "property_address",
+    "re_taxes",
+    "total_income"
+   ]
+  },
+  "naive_diff_recall": {
+   "k": 2,
+   "n": 4,
+   "rate": 0.5,
+   "ci95": [
+    0.0676,
+    0.9324
+   ]
+  },
+  "naive_caught": [
+   "P2",
+   "P4"
+  ]
+ },
+ "extraction": {
+  "all_fields": {
+   "k": 141,
+   "n": 141,
+   "rate": 1.0,
+   "ci95": [
+    0.9742,
+    1.0
+   ]
+  },
+  "numeric_llm": {
+   "k": 51,
+   "n": 51,
+   "rate": 1.0,
+   "ci95": [
+    0.9302,
+    1.0
+   ]
+  },
+  "numeric_fuzzy_baseline": {
+   "k": 30,
+   "n": 51,
+   "rate": 0.5882,
+   "ci95": [
+    0.4417,
+    0.7242
+   ]
+  },
+  "wrong": []
+ },
+ "planted": [
+  {
+   "id": "P1",
+   "kind": "bridge",
+   "what": "Operating statement NOI (256,600.40) vs Form 8825 line 19 (37,050). Same entity and period; different basis.",
+   "pass": true,
+   "evidence": "bridge residual_located, located ['other_income', 're_taxes']"
+  },
+  {
+   "id": "P2",
+   "kind": "real_conflict",
+   "what": "Property taxes, operating statement 27,200 vs Form 8825 line 10 41,800 (appraisal estimate 42,000 supports the return).",
+   "pass": true,
+   "evidence": "axes ['decision', 'integrity']; card conflict:re_taxes:2025 present"
+  },
+  {
+   "id": "P3",
+   "kind": "trap_coincidence",
+   "what": "The 14,600 residual equals insurance (8825 line 7 = 14,600). Insurance matches on both documents, so it cannot be the explanation.",
+   "pass": true,
+   "evidence": "coincidence rejected"
+  },
+  {
+   "id": "P4",
+   "kind": "real_conflict",
+   "what": "Ownership. Certification (2026-03-02) says Lee 24% / Ortiz Jr. 26%; Operating Agreement Exhibit A as amended 2026-04-15 says Lee 26% / Ortiz Jr. 24%.",
+   "pass": true,
+   "evidence": "axes ['decision', 'integrity']; card conflict:ownership present"
+  },
+  {
+   "id": "P5",
+   "kind": "missing",
+   "what": "No personal financial statement for Marcus Lee, who is a >=25% owner once P4 is resolved.",
+   "pass": true,
+   "evidence": "card missing:pfs:person:marcuslee-5520 present"
+  },
+  {
+   "id": "P6",
+   "kind": "trap_entity",
+   "what": "The PFS for \"James Ortiz\" (SSN ...4471, born 1958) is not member James Ortiz Jr. (SSN ...9032, born 1986). Name similarity alone must not merge them.",
+   "pass": true,
+   "evidence": "card entity:unmatched:pfs_ortiz present"
+  },
+  {
+   "id": "P7",
+   "kind": "trap_period",
+   "what": "Rent roll in-place rent annualised (32,535 x 12 = 390,420, as of 2026-06-30) vs Form 8825 gross rents (384,600, TY2025).",
+   "pass": true,
+   "evidence": "gross_rents not_comparable point_in_time_vs_period: 2 found"
+  },
+  {
+   "id": "P8",
+   "kind": "trap_timing",
+   "what": "Occupancy 14/16 in the appraisal (2026-05-20) vs 15/16 in the rent roll (2026-06-30). Unit 107 was leased 2026-06-01.",
+   "pass": true,
+   "evidence": "occupancy not_comparable different_as_of: 1 found"
+  },
+  {
+   "id": "P9",
+   "kind": "noise_rounding",
+   "what": "Other income 7,800.40 (operating statement) vs 7,800 (8825 line 2b, whole dollars).",
+   "pass": true,
+   "evidence": "other_income equal_after_transform : 1 found"
+  },
+  {
+   "id": "P10",
+   "kind": "noise_mapping",
+   "what": "Management fees 15,700 + landscaping and pest 10,000 on the statement map to 8825 line 17 other deductions 25,700.",
+   "pass": true,
+   "evidence": "other_opex equal_after_mapping : 1 found"
+  },
+  {
+   "id": "P11",
+   "kind": "noise_entity_names",
+   "what": "\"Cedar Row Holdings LLC\", \"Cedar Row Holdings, L.L.C.\" and \"CEDAR ROW HOLDINGS LLC\" are one borrower (EIN 07-4418203 where shown).",
+   "pass": true,
+   "evidence": "org merged across 6 docs: True"
+  },
+  {
+   "id": "P12",
+   "kind": "noise_units",
+   "what": "Loan amount \"$2.4MM\" in the narrative vs \"2,400,000\" in the table.",
+   "pass": true,
+   "evidence": "loan_amount equal_after_transform : 1 found"
+  },
+  {
+   "id": "P13",
+   "kind": "tie_out",
+   "what": "Appraised value 4,130,000 vs NOI 258,000 / cap rate 6.25% = 4,128,000.",
+   "pass": true,
+   "evidence": "rule appraisal_tie = pass"
+  },
+  {
+   "id": "P14",
+   "kind": "noise_collateral",
+   "what": "\"418 Cedar Row Ln\" (appraisal) vs \"418 Cedar Row Lane\" (loan request); same APN.",
+   "pass": true,
+   "evidence": "collateral merged across 5 docs: True"
+  }
+ ],
+ "traps_and_noise_handled": {
+  "k": 11,
+  "n": 11,
+  "rate": 1.0,
+  "ci95": [
+   0.7151,
+   1.0
+  ]
+ },
+ "order_invariance": {
+  "orders": [
+   "A",
+   "B",
+   "C"
+  ],
+  "identical_to_A": [
+   "A",
+   "B",
+   "C"
+  ],
+  "k": 3,
+  "n": 3,
+  "rate": 1.0,
+  "ci95": [
+   0.2924,
+   1.0
+  ]
+ },
+ "stale_decisions": {
+  "k": 1,
+  "n": 1,
+  "rate": 1.0,
+  "ci95": [
+   0.025,
+   1.0
+  ]
+ },
+ "wrong_merges": 0,
+ "cost_per_file": {
+  "model_calls": 21,
+  "tokens_in": 26084,
+  "tokens_out": 7494,
+  "providers": [
+   "groq:openai/gpt-oss-120b"
+  ]
+ }
+}
