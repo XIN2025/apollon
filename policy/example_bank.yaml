@@ -1,0 +1,41 @@
+version: example-2026-10
+label: Example policy. Illustrative values only; each bank's credit policy sets its own.
+dscr_min: 1.25
+ltv_max: 0.75
+occupancy_min: 0.85
+appraisal_tie_tolerance: 0.01
+beneficial_owner_pct: 25            # 31 CFR 1010.230(d)(1): "25 percent or more of the equity interests"
+noi_method: lesser_of               # underwritten NOI = lowest of recent statements (tax-corrected) and the appraisal
+statement_max_age_months: 18
+tolerance: {abs: 1, rel: 0.005}     # differences under this are noise; above it a borrower-prepared value disagreeing with an authoritative one is an integrity issue
+required_documents: [loan_request, rent_roll, operating_statement, appraisal, ownership_certification, operating_agreement, irs_8825, irs_4562]
+pfs_required_for_beneficial_owners: true
+
+# Which source supplies the working value. It never hides the disagreement; the card still shows.
+authority:
+  financial_actuals: [irs_8825, operating_statement]       # a filed return outranks a borrower-prepared statement for the same period
+  ownership: [operating_agreement, ownership_certification] # the governing document outranks a self-attestation; the latest amendment wins
+roles:
+  loan_request: borrower_prepared
+  rent_roll: borrower_prepared
+  operating_statement: borrower_prepared
+  ownership_certification: self_attested
+  pfs: self_attested
+  operating_agreement: governing
+  appraisal: third_party
+  irs_8825: tax_return
+  irs_4562: tax_return
+
+# Closed catalog. Each bridge needs its evidence; anything else is not explained by the engine.
+bridges:
+  interest: {source: irs_8825.interest, why: Tax net income is after mortgage interest; NOI is before debt service.}
+  depreciation: {source: irs_8825.depreciation, tie: irs_4562.depreciation, why: Depreciation is a non-cash tax deduction; it must tie to Form 4562 line 22.}
+  amortization: {source: irs_4562.amortization, inside: irs_8825.other_deductions, why: Amortization of loan costs sits in line 17 other deductions; it is non-cash.}
+
+reason_codes:
+  - verified_against_source
+  - verified_against_certification
+  - accepted_policy_value
+  - borrower_explanation_received
+  - document_requested
+  - escalated_to_credit_officer

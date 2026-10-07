@@ -1,0 +1,125 @@
+# What to pull from each document type. Kinds: money, pct, int, text, date, period, months, scale, table.
+# `concept` is the cross-document name the reconciler compares on; it defaults to the field name.
+loan_request:
+  about: A borrower's loan application or credit request (amount, rate, amortization, collateral).
+  fields:
+    date: {kind: date, hint: date of the request}
+    borrower_name: {kind: text, hint: legal name of the borrowing entity}
+    borrower_ein: {kind: text, hint: borrower employer identification number / tax ID}
+    property_name: {kind: text, hint: name of the collateral property}
+    property_address: {kind: text, hint: street address of the collateral property}
+    apn: {kind: text, hint: assessor parcel number}
+    loan_amount: {kind: money, hint: requested loan amount in the summary table}
+    loan_amount_narrative: {kind: money, hint: loan amount as written in the narrative sentence (quote it)}
+    rate: {kind: pct, hint: interest rate}
+    amortization: {kind: months, hint: amortization period}
+    term: {kind: months, hint: loan term}
+    purpose: {kind: text, hint: purpose / use of proceeds}
+
+rent_roll:
+  about: A unit-by-unit list of tenants and rents for a property at a point in time.
+  fields:
+    property_name: {kind: text, hint: property name in the title}
+    as_of: {kind: date, hint: the as-of date of the rent roll}
+    units: {kind: table, hint: one row per unit, columns: [unit, tenant, rent]}
+    stated_total_rent: {kind: money, hint: total monthly rent on the totals row}
+
+operating_statement:
+  about: A property income and expense statement prepared by the owner, for a full year or trailing twelve months.
+  fields:
+    property_name: {kind: text, hint: property name in the title}
+    period: {kind: period, hint: the period covered (start and end dates)}
+    scale: {kind: scale, hint: a note that amounts are in thousands, if any (null if none)}
+    basis: {kind: text, hint: who prepared it and on what basis, e.g. cash basis / unaudited}
+    gross_rents: {kind: money, hint: rental income / rental revenue}
+    other_income: {kind: money, hint: other income (laundry, parking, fees)}
+    total_income: {kind: money, hint: total income / total revenue}
+    advertising: {kind: money, hint: advertising / marketing}
+    cleaning_maintenance: {kind: money, hint: cleaning / janitorial / upkeep / maintenance (not repairs)}
+    insurance: {kind: money, hint: insurance}
+    legal_professional: {kind: money, hint: legal / accounting / professional fees}
+    re_taxes: {kind: money, hint: real estate or property taxes}
+    repairs: {kind: money, hint: repairs (or repairs and maintenance)}
+    utilities: {kind: money, hint: utilities}
+    management: {kind: money, hint: management fees}
+    other_expenses: {kind: money, hint: any remaining operating expense lines not listed above (several allowed)}
+    total_opex: {kind: money, hint: total operating expenses}
+    noi: {kind: money, hint: net operating income}
+
+appraisal:
+  about: An appraisal or appraisal summary giving a property's market value.
+  fields:
+    effective_date: {kind: date, hint: effective date of value}
+    client: {kind: text, hint: the client the appraisal is addressed to}
+    property_address: {kind: text, hint: the subject property address (quote it from the narrative)}
+    apn: {kind: text, hint: assessor parcel number}
+    units: {kind: int, hint: total number of units}
+    occupied_units: {kind: int, hint: occupied units at inspection}
+    pgi: {kind: money, hint: potential gross income}
+    re_taxes: {kind: money, hint: real estate taxes estimate}
+    noi: {kind: money, hint: net operating income used in the income approach}
+    cap_rate: {kind: pct, hint: capitalization rate}
+    value: {kind: money, hint: as-is market value}
+
+ownership_certification:
+  about: A certification listing the beneficial owners (25% or more) and control person of a legal entity.
+  fields:
+    entity_name: {kind: text, hint: legal entity name}
+    entity_ein: {kind: text, hint: entity employer identification number}
+    date: {kind: date, hint: date signed}
+    owners: {kind: table, hint: one row per beneficial owner, columns: [name, dob, address, ssn, pct]}
+    control_person: {kind: text, hint: name of the control person}
+
+operating_agreement:
+  about: An LLC operating agreement, exhibit or schedule listing members and their membership interests.
+  fields:
+    entity_name: {kind: text, hint: the LLC's name (quote it from the narrative)}
+    date: {kind: date, hint: date of the document or of its latest amendment}
+    members: {kind: table, hint: one row per member, columns: [name, address, pct]}
+    manager: {kind: text, hint: the managing member or manager (quote it)}
+
+pfs:
+  about: A personal financial statement of an individual (assets, liabilities, net worth).
+  fields:
+    date: {kind: date, hint: statement date}
+    name: {kind: text, hint: the individual's name}
+    ssn: {kind: text, hint: social security number as shown}
+    dob: {kind: date, hint: date of birth}
+    address: {kind: text, hint: residence address}
+    total_assets: {kind: money, hint: total assets}
+    total_liabilities: {kind: money, hint: total liabilities}
+    net_worth: {kind: money, hint: net worth}
+    liquid_assets: {kind: money, hint: cash and marketable securities}
+
+irs_8825:
+  about: IRS Form 8825, rental real estate income and expenses of a partnership or S corporation.
+  fields:
+    name: {kind: text, hint: name at the top of the form}
+    ein: {kind: text, hint: employer identification number at the top}
+    property_address: {kind: text, hint: property A address on line 1}
+    gross_rents: {kind: money, hint: line 2a, property column A}
+    other_income: {kind: money, hint: line 2b, column A}
+    total_income: {kind: money, hint: line 2c, column A}
+    advertising: {kind: money, hint: line 3}
+    cleaning_maintenance: {kind: money, hint: line 5}
+    insurance: {kind: money, hint: line 7}
+    interest: {kind: money, hint: line 8}
+    legal_professional: {kind: money, hint: line 9}
+    re_taxes: {kind: money, hint: line 10}
+    repairs: {kind: money, hint: line 11}
+    utilities: {kind: money, hint: line 12}
+    wages: {kind: money, hint: line 13 (null if blank)}
+    depreciation: {kind: money, hint: line 14}
+    other_deductions: {kind: money, hint: line 17}
+    total_expenses: {kind: money, hint: line 18}
+    net_income: {kind: money, hint: line 19, income or loss from the property}
+
+irs_4562:
+  about: IRS Form 4562, depreciation and amortization, for one tax year.
+  fields:
+    form_year: {kind: int, hint: the tax year printed in the form header (e.g. 2025)}
+    name: {kind: text, hint: name(s) shown on return}
+    activity: {kind: text, hint: business or activity the form relates to}
+    ein: {kind: text, hint: identifying number}
+    depreciation: {kind: money, hint: line 22 total depreciation}
+    amortization: {kind: money, hint: line 44 total amortization (null if blank)}
